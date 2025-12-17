@@ -1,103 +1,184 @@
-# OptiMind - AI Idea Evolution Engine
+# OptiMind - GitHub for Ideas 🚀
 
-A Next.js web application that helps users evolve and optimize their ideas using Google Gemini AI.
+A Next.js collaborative platform where users can create, share, fork, and star AI-powered idea repositories. Think GitHub, but for evolving and optimizing ideas!
 
-## Features
+## 🌟 Key Features
 
-- 🎯 **Real-time Idea Analysis**: Get instant feedback on clarity, market fit, and competition as you type
-- 🚀 **Smart Evolution**: AI generates three optimized variants (impact-focused, cost-efficient, and balanced)
-- 📊 **Visual Insights**: Interactive charts and metrics powered by Recharts
-- 💡 **Competition Analysis**: Discover existing solutions and market landscape
-- ✨ **Professional UI**: Clean, card-based layout inspired by Vercel/Notion
+### 🔐 User System
+- Sign up/Login with email and password
+- Secure authentication with NextAuth v5
+- User dashboard to manage repositories
+- Profile system ready for expansion
 
-## Tech Stack
+### 📦 Repository Management
+- Create **public or private** idea repositories
+- Organize with **categories and tags**
+- Save complete idea evolution workflows
+- Delete and manage your repositories
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: TailwindCSS 4
-- **AI**: Google Gemini AI
-- **Charts**: Recharts
-- **Icons**: Lucide React
-- **Language**: TypeScript
+### 🌐 Social & Discovery
+- **Discover page** - Browse all public repositories
+- **Fork repositories** - Copy and build on others' ideas
+- **Star system** - Bookmark your favorite ideas
+- **View tracking** - See how many people viewed your ideas
+- Search and filter functionality
 
-## Getting Started
+### 🤖 AI-Powered Features
+- **Real-time Analysis** - Get instant feedback as you type
+- **Smart Evolution** - Generate 3 optimized variants
+- **Business Insights** - B2B/B2C detection, monetization, GTM strategy
+- **AI Debate Mode** - Two AI agents debate your idea
+- **Idea Mixer** - Combine two ideas into hybrid concepts
+- **Idea Library** - Local storage for quick prototyping
+
+### 📊 Analytics & Insights
+- Interactive charts with Recharts
+- Market fit analysis
+- Competition detection
+- Clarity scoring
+- Visual radar assessments
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | TailwindCSS 4 |
+| Database | MongoDB + Mongoose |
+| Auth | NextAuth v5 Beta |
+| AI | Google Gemini 1.5 Flash |
+| Charts | Recharts |
+| Icons | Lucide React |
+| Password | bcryptjs |
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- A Google Gemini API key (get one at [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey))
+- Node.js 18+
+- MongoDB (local or Atlas)
+- Google Gemini API key
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```bash
 git clone <your-repo-url>
 cd opti-mind
 ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 ```bash
 npm install
 ```
 
-3. Create a `.env.local` file in the root directory:
+3. **Set up MongoDB:**
+
+**Option A: MongoDB Atlas (Cloud - Recommended)**
+- Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+- Create free account and cluster
+- Get connection string
+- Update `.env.local`
+
+**Option B: Local MongoDB**
 ```bash
-GEMINI_API_KEY=your_gemini_api_key_here
+# macOS
+brew install mongodb-community
+brew services start mongodb-community
+
+# Ubuntu/Debian
+sudo apt-get install mongodb
+sudo systemctl start mongodb
 ```
 
-4. Run the development server:
+4. **Configure environment variables:**
+
+Create `.env.local` in the root:
+```env
+# Google Gemini AI
+GEMINI_API_KEY=your-gemini-api-key
+
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/optimind
+
+# NextAuth (generate with: openssl rand -base64 32)
+NEXTAUTH_SECRET=your-generated-secret
+NEXTAUTH_URL=http://localhost:3000
+```
+
+5. **Start the development server:**
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. **Open your browser:**
+```
+http://localhost:3000
+```
 
-## Project Structure
+## 📖 User Guide
+
+### Creating an Account
+1. Navigate to the homepage
+2. Click **"Sign In"** → **"Sign up"**
+3. Enter name, email, and password (min 6 characters)
+4. Click **"Create Account"**
+
+### Creating a Repository
+1. Sign in and go to **Dashboard**
+2. Click **"New Idea"**
+3. Fill in:
+   - Repository name
+   - Description
+   - Visibility (public/private)
+   - Category
+   - Tags (up to 5)
+   - Your detailed idea
+4. Optionally click **"Generate Variants"** for AI optimization
+5. Click **"Save"**
+
+### Discovering Ideas
+1. Click **"Discover"** in navigation
+2. Browse public repositories
+3. Use search bar to find specific ideas
+4. Sort by: New, Most Stars, Most Forks, Most Viewed
+
+### Forking & Starring
+- **Fork**: Copy someone's public idea to your account
+- **Star**: Bookmark interesting ideas
+- View stats on repository detail pages
+
+## 📁 Project Structure
 
 ```
 opti-mind/
 ├── app/
-│   ├── api/
-│   │   ├── analyze/route.ts    # Real-time analysis endpoint
-│   │   └── evolve/route.ts     # Idea evolution endpoint
-│   ├── tool/
-│   │   └── page.tsx            # Main tool page
-│   ├── layout.tsx
-│   ├── page.tsx                # Home page
-│   └── globals.css
-├── components/
-│   ├── AnalysisPanel.tsx       # Real-time analysis with charts
-│   ├── IdeaCard.tsx            # Variant card component
-│   ├── VariantModal.tsx        # Detailed variant modal
-│   └── LoadingSpinner.tsx      # Loading indicator
-└── public/
+│   ├── page.tsx                    # Home page
+│   ├── login/page.tsx              # Sign in
+│   ├── signup/page.tsx             # Create account
+│   ├── dashboard/page.tsx          # User's repositories
+│   ├── discover/page.tsx           # Browse public repos
+│   ├── create/page.tsx             # Create repository
+│   ├── repo/[id]/page.tsx          # Repository details
+│   ├── tool/page.tsx               # Standalone tool
+│   └── api/
+│       ├── auth/                   # Authentication
+│       ├── repos/                  # Repository CRUD + fork/star
+│       ├── evolve/route.ts         # Generate variants
+│       ├── analyze/route.ts        # Real-time analysis
+│       ├── business-insights/      # Business analysis
+│       ├── ai-debate/              # AI debate mode
+│       └── idea-mixer/             # Idea mixing
+├── components/                     # Reusable UI components
+├── models/                         # MongoDB schemas
+│   ├── User.ts
+│   └── IdeaRepo.ts
+├── lib/
+│   └── mongodb.ts                  # Database connection
+├── auth.ts                         # NextAuth config
+└── types/                          # TypeScript definitions
 ```
-
-## Usage
-
-1. **Home Page**: Click "Start Evolving" to access the tool
-2. **Enter Your Idea**: Describe your idea in detail (minimum 20 characters for analysis)
-3. **Real-time Analysis**: Watch as AI analyzes your idea for clarity, competition, and provides suggestions
-4. **Choose Optimization Goal**: Select Impact, Cost, or Balanced
-5. **Evolve**: Click "Evolve Idea" to generate three optimized variants
-6. **Explore Variants**: Click any card to view detailed strengths, trade-offs, and metrics
-
-## Features in Detail
-
-### Real-time Analysis
-- **Clarity Score**: How well-defined is your idea?
-- **Market Fit**: How well does it address market needs?
-- **Competition**: Existing competitors and similar solutions
-- **AI Suggestions**: Actionable recommendations
-- **Market Data Charts**: Visual representation of market demand and competition
-- **Radar Assessment**: Multi-dimensional evaluation of your idea
-
-### Idea Evolution
-- **Impact-Optimized**: Maximum reach and effectiveness
-- **Cost-Optimized**: Budget-friendly and resource-efficient
-- **Balanced**: Equal consideration of all factors
-
-Each variant includes:
-- Title and summary
 - Detailed description
 - Strengths (bullet points)
 - Trade-offs (considerations)

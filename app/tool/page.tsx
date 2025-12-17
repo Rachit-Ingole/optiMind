@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Sparkles, Loader2, Zap, TrendingUp, DollarSign, Target } from 'lucide-react';
 import Link from 'next/link';
 import IdeaCard from '@/components/IdeaCard';
 import VariantModal from '@/components/VariantModal';
@@ -13,6 +13,8 @@ import AIDebatePanel from '@/components/AIDebatePanel';
 import IdeaMixer from '@/components/IdeaMixer';
 import IdeaLibrary from '@/components/IdeaLibrary';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import RoastMode from '@/components/RoastMode';
+import ResearchPanel from '@/components/ResearchPanel';
 
 interface Variant {
   title: string;
@@ -88,6 +90,9 @@ export default function ToolPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [businessInsights, setBusinessInsights] = useState<BusinessInsights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(false);
+  
+  // New state for tab navigation
+  const [activeTab, setActiveTab] = useState<'evolution' | 'roast' | 'research'>('evolution');
 
   // Real-time analysis as user types
   const analyzeIdea = useCallback(async (text: string) => {
@@ -200,84 +205,168 @@ export default function ToolPage() {
               />
 
               <div className="mt-6">
-                <h3 className="text-lg font-semibold text-slate-800 mb-3">Optimization Goal</h3>
-                <div className="space-y-3">
-                  <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
-                    <input
-                      type="radio"
-                      name="goal"
-                      value="impact"
-                      checked={goal === 'impact'}
-                      onChange={(e) => setGoal(e.target.value)}
-                      className="w-5 h-5 text-indigo-600"
-                    />
-                    <div>
-                      <div className="font-medium text-slate-800">Maximize Impact</div>
-                      <div className="text-sm text-slate-600">Focus on reach and effectiveness</div>
-                    </div>
-                  </label>
-
-                  <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
-                    <input
-                      type="radio"
-                      name="goal"
-                      value="cost"
-                      checked={goal === 'cost'}
-                      onChange={(e) => setGoal(e.target.value)}
-                      className="w-5 h-5 text-indigo-600"
-                    />
-                    <div>
-                      <div className="font-medium text-slate-800">Minimize Cost</div>
-                      <div className="text-sm text-slate-600">Optimize for budget efficiency</div>
-                    </div>
-                  </label>
-
-                  <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
-                    <input
-                      type="radio"
-                      name="goal"
-                      value="balanced"
-                      checked={goal === 'balanced'}
-                      onChange={(e) => setGoal(e.target.value)}
-                      className="w-5 h-5 text-indigo-600"
-                    />
-                    <div>
-                      <div className="font-medium text-slate-800">Balanced</div>
-                      <div className="text-sm text-slate-600">Equal weight to all factors</div>
-                    </div>
-                  </label>
+                <h3 className="text-lg font-semibold text-slate-800 mb-3">Analysis Mode</h3>
+                
+                {/* Tab Navigation */}
+                <div className="flex gap-2 mb-4">
+                  <button
+                    onClick={() => setActiveTab('evolution')}
+                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+                      activeTab === 'evolution'
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      Evolution
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('roast')}
+                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+                      activeTab === 'roast'
+                        ? 'bg-orange-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Zap className="w-4 h-4" />
+                      Roast
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('research')}
+                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+                      activeTab === 'research'
+                        ? 'bg-purple-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Target className="w-4 h-4" />
+                      Research
+                    </span>
+                  </button>
                 </div>
+                
+                {/* Evolution Mode Options */}
+                {activeTab === 'evolution' && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
+                      <input
+                        type="radio"
+                        name="goal"
+                        value="impact"
+                        checked={goal === 'impact'}
+                        onChange={(e) => setGoal(e.target.value)}
+                        className="w-5 h-5 text-indigo-600"
+                      />
+                      <div>
+                        <div className="font-medium text-slate-800">Maximize Impact</div>
+                        <div className="text-sm text-slate-600">Focus on reach and effectiveness</div>
+                      </div>
+                    </label>
+
+                    <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
+                      <input
+                        type="radio"
+                        name="goal"
+                        value="cost"
+                        checked={goal === 'cost'}
+                        onChange={(e) => setGoal(e.target.value)}
+                        className="w-5 h-5 text-indigo-600"
+                      />
+                      <div>
+                        <div className="font-medium text-slate-800">Minimize Cost</div>
+                        <div className="text-sm text-slate-600">Optimize for budget efficiency</div>
+                      </div>
+                    </label>
+
+                    <label className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50">
+                      <input
+                        type="radio"
+                        name="goal"
+                        value="balanced"
+                        checked={goal === 'balanced'}
+                        onChange={(e) => setGoal(e.target.value)}
+                        className="w-5 h-5 text-indigo-600"
+                      />
+                      <div>
+                        <div className="font-medium text-slate-800">Balanced</div>
+                        <div className="text-sm text-slate-600">Equal weight to all factors</div>
+                      </div>
+                    </label>
+                  </div>
+                )}
+                
+                {/* Roast Mode Description */}
+                {activeTab === 'roast' && (
+                  <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-lg animate-fadeIn">
+                    <p className="text-slate-700 font-medium">🔥 Brutal Honesty Mode</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Get unfiltered, savage feedback on your idea. No sugar-coating, just reality.
+                    </p>
+                  </div>
+                )}
+                
+                {/* Research Mode Description */}
+                {activeTab === 'research' && (
+                  <div className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-lg animate-fadeIn">
+                    <p className="text-slate-700 font-medium">🎓 Academic Research Mode</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Discover relevant research papers, methodologies, and academic resources.
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <button
-                onClick={handleEvolve}
-                disabled={!idea.trim() || loading}
-                className="w-full mt-6 py-4 px-6 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Evolving Your Idea...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5" />
-                    Evolve Idea
-                  </>
+              {/* Action Buttons */}
+              <div className="mt-6 space-y-3">
+                {activeTab === 'evolution' && (
+                  <button
+                    onClick={handleEvolve}
+                    disabled={!idea.trim() || loading}
+                    className="w-full py-4 px-6 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Evolving Your Idea...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        Evolve Idea
+                      </>
+                    )}
+                  </button>
                 )}
-              </button>
+              </div>
             </div>
 
-            {/* Real-time Analysis */}
-            <AnalysisPanel analysis={analysis} loading={analyzing} />
+            {/* Real-time Analysis - Show for Evolution Mode */}
+            {activeTab === 'evolution' && (
+              <AnalysisPanel analysis={analysis} loading={analyzing} />
+            )}
             
-            {/* AI Debate Panel */}
-            {idea && idea.length > 50 && (
+            {/* Roast Results - Show for Roast Mode */}
+            {activeTab === 'roast' && idea && idea.length > 20 && (
+              <RoastMode idea={idea} />
+            )}
+            
+            {/* Research Results - Show for Research Mode */}
+            {activeTab === 'research' && idea && idea.length > 20 && (
+              <ResearchPanel idea={idea} />
+            )}
+            
+            {/* AI Debate Panel - Show for Evolution Mode */}
+            {activeTab === 'evolution' && idea && idea.length > 50 && (
               <AIDebatePanel idea={idea} />
             )}
             
-            {/* Idea Mixer */}
-            {idea && (
+            {/* Idea Mixer - Show for Evolution Mode */}
+            {activeTab === 'evolution' && idea && (
               <IdeaMixer 
                 currentIdea={idea}
                 onMixedIdea={(mixedIdea) => setIdea(mixedIdea)}
@@ -287,59 +376,116 @@ export default function ToolPage() {
 
           {/* Right Panel - Results */}
           <div>
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
-              <h2 className="text-2xl font-bold text-slate-800 mb-2">Evolved Variants</h2>
-              <p className="text-slate-600 text-sm">
-                AI-generated alternatives optimized for different objectives
-              </p>
-            </div>
-
-            {loading && <LoadingSpinner />}
-
-            {!loading && variants.length === 0 && (
-              <div className="bg-white rounded-lg shadow-md p-12 border border-gray-200 text-center mb-6">
-                <Sparkles className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-400">Your evolved variants will appear here</p>
-              </div>
-            )}
-
-            {!loading && variants.length > 0 && (
+            {/* Evolution Mode Results */}
+            {activeTab === 'evolution' && (
               <>
-                <div className="space-y-4 animate-fadeIn mb-6">
-                  {variants.map((variant, index) => (
-                    <IdeaCard
-                      key={index}
-                      title={variant.title}
-                      summary={variant.summary}
-                      description={variant.description}
-                      scores={variant.scores}
-                      onClick={() => setSelectedVariant(variant)}
-                    />
-                  ))}
+                <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
+                  <h2 className="text-2xl font-bold text-slate-800 mb-2">Evolved Variants</h2>
+                  <p className="text-slate-600 text-sm">
+                    AI-generated alternatives optimized for different objectives
+                  </p>
                 </div>
 
-                {/* Business Insights Section */}
-                <div className="space-y-4 animate-fadeIn">
-                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg p-4 border border-indigo-100">
-                    <h3 className="text-lg font-bold text-indigo-900 mb-1">Business Insights</h3>
-                    <p className="text-sm text-indigo-700">Detailed analysis for your idea</p>
+                {loading && <LoadingSpinner />}
+
+                {!loading && variants.length === 0 && (
+                  <div className="bg-white rounded-lg shadow-md p-12 border border-gray-200 text-center mb-6">
+                    <Sparkles className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-400">Your evolved variants will appear here</p>
                   </div>
+                )}
 
-                  <BusinessModelPanel 
-                    data={businessInsights?.businessModel || null}
-                    loading={insightsLoading}
-                  />
+                {!loading && variants.length > 0 && (
+                  <>
+                    <div className="space-y-4 animate-fadeIn mb-6">
+                      {variants.map((variant, index) => (
+                        <IdeaCard
+                          key={index}
+                          title={variant.title}
+                          summary={variant.summary}
+                          description={variant.description}
+                          scores={variant.scores}
+                          onClick={() => setSelectedVariant(variant)}
+                        />
+                      ))}
+                    </div>
 
-                  <MonetizationPanel
-                    data={businessInsights?.monetization || null}
-                    loading={insightsLoading}
-                  />
+                    {/* Business Insights Section */}
+                    <div className="space-y-4 animate-fadeIn">
+                      <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg p-4 border border-indigo-100">
+                        <h3 className="text-lg font-bold text-indigo-900 mb-1">Business Insights</h3>
+                        <p className="text-sm text-indigo-700">Detailed analysis for your idea</p>
+                      </div>
 
-                  <GoToMarketPanel
-                    data={businessInsights?.goToMarket || null}
-                    loading={insightsLoading}
-                  />
+                      <BusinessModelPanel 
+                        data={businessInsights?.businessModel || null}
+                        loading={insightsLoading}
+                      />
+
+                      <MonetizationPanel
+                        data={businessInsights?.monetization || null}
+                        loading={insightsLoading}
+                      />
+
+                      <GoToMarketPanel
+                        data={businessInsights?.goToMarket || null}
+                        loading={insightsLoading}
+                      />
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+            
+            {/* Roast Mode Results */}
+            {activeTab === 'roast' && (
+              <>
+                <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg shadow-md p-6 border-2 border-orange-200 mb-6">
+                  <h2 className="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <Zap className="w-6 h-6 text-orange-600" />
+                    Brutal Reality Check
+                  </h2>
+                  <p className="text-slate-600 text-sm">
+                    Unfiltered, savage feedback on your idea. Truth hurts, but it helps.
+                  </p>
                 </div>
+
+                {!idea || idea.length < 20 ? (
+                  <div className="bg-white rounded-lg shadow-md p-12 border border-gray-200 text-center">
+                    <Zap className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-400">Enter your idea (at least 20 characters) to get roasted</p>
+                  </div>
+                ) : (
+                  <div className="animate-fadeIn">
+                    <RoastMode idea={idea} />
+                  </div>
+                )}
+              </>
+            )}
+            
+            {/* Research Mode Results */}
+            {activeTab === 'research' && (
+              <>
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg shadow-md p-6 border-2 border-purple-200 mb-6">
+                  <h2 className="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <Target className="w-6 h-6 text-purple-600" />
+                    Academic Research
+                  </h2>
+                  <p className="text-slate-600 text-sm">
+                    Relevant papers, methodologies, and academic resources for your idea
+                  </p>
+                </div>
+
+                {!idea || idea.length < 20 ? (
+                  <div className="bg-white rounded-lg shadow-md p-12 border border-gray-200 text-center">
+                    <Target className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-400">Enter your idea (at least 20 characters) to find research</p>
+                  </div>
+                ) : (
+                  <div className="animate-fadeIn">
+                    <ResearchPanel idea={idea} />
+                  </div>
+                )}
               </>
             )}
           </div>

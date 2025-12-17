@@ -11,12 +11,26 @@ export default function Home() {
             <Sparkles className="w-6 h-6 text-indigo-600" />
             <span className="text-xl font-bold text-slate-800">OptiMind</span>
           </div>
-          <Link
-            href="/tool"
-            className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
-          >
-            Launch App
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/discover"
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              Discover
+            </Link>
+            <Link
+              href="/login"
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/tool"
+              className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Launch App
+            </Link>
+          </div>
         </div>
       </nav>
 

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const { idea1, idea2 } = await request.json();
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
     const prompt = `You are an innovation expert. Combine these two ideas into a single hybrid concept:
 
