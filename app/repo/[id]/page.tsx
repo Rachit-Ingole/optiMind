@@ -317,19 +317,19 @@ export default function RepoDetailPage() {
                       <div>
                         <span className="text-gray-500">Impact:</span>
                         <div className="font-semibold text-blue-600">
-                          {variant.scores?.impact}/10
+                          {variant.scores?.impact}/100
                         </div>
                       </div>
                       <div>
                         <span className="text-gray-500">Cost:</span>
                         <div className="font-semibold text-green-600">
-                          {variant.scores?.cost}/10
+                          {variant.scores?.cost}/100
                         </div>
                       </div>
                       <div>
                         <span className="text-gray-500">Feasibility:</span>
                         <div className="font-semibold text-purple-600">
-                          {variant.scores?.feasibility}/10
+                          {variant.scores?.feasibility}/100
                         </div>
                       </div>
                     </div>
